@@ -68,11 +68,13 @@ class Play extends Phaser.Scene {
 
         // 60-second timer
         scoreConfig.fixedWidth = 0;
+        /*
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+        */
 
         this.timer = game.settings.gameTimer;
         this.timerDisplay = this.add.text(game.config.width - (borderUISize + borderPadding) * 4, borderUISize + borderPadding * 2, 'Time: ' + this.timer * 0.001, scoreConfig);
@@ -91,14 +93,17 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.shipExplode(this.ship03);
             this.p1Rocket.reset();
+            this.timer += 5000;
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             this.shipExplode(this.ship02);
             this.p1Rocket.reset();
+            this.timer += 5000;
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.shipExplode(this.ship01);
             this.p1Rocket.reset();
+            this.timer += 5000;
         }
 
         // check key input for restart
@@ -112,8 +117,16 @@ class Play extends Phaser.Scene {
             this.scene.start('menuScene');
         }
 
-        this.timer -= delta;
-        this.timerDisplay.text = 'Time: ' + Math.round(this.timer * 0.001);
+        // dynamic timer display
+        if(!this.gameOver) {
+            this.timer -= delta;
+            this.timerDisplay.text = 'Time: ' + Math.round(this.timer * 0.001);
+        }
+
+        // game over
+        if(Math.round(this.timer * 0.001) == 0) {
+            this.gameOverScreen();
+        }
 
     }
 
@@ -144,5 +157,23 @@ class Play extends Phaser.Scene {
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');
+    }
+
+    gameOverScreen() {
+        let gameoverConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+        this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', gameoverConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', gameoverConfig).setOrigin(0.5);
+        this.gameOver = true;
     }
 }
