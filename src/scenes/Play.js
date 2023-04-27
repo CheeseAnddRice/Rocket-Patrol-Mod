@@ -73,9 +73,12 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        this.timer = game.settings.gameTimer;
+        this.timerDisplay = this.add.text(game.config.width - (borderUISize + borderPadding) * 4, borderUISize + borderPadding * 2, 'Time: ' + this.timer * 0.001, scoreConfig);
     }
 
-    update() {
+    update(time, delta) {
         this.starfield.tilePositionX -= 4;
         if(!this.gameOver) {
             this.p1Rocket.update();
@@ -108,6 +111,10 @@ class Play extends Phaser.Scene {
             this.sound.play('sfx_select');
             this.scene.start('menuScene');
         }
+
+        this.timer -= delta;
+        this.timerDisplay.text = 'Time: ' + Math.round(this.timer * 0.001);
+
     }
 
     checkCollision(rocket, ship) {
