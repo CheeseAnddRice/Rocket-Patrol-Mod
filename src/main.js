@@ -1,3 +1,8 @@
+/* 
+(Mod name) by Marcus Williamson. 1 hours
+Mods: Time display (10), adds time for successful hits (15)
+*/
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,

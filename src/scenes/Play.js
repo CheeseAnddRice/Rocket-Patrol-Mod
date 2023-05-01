@@ -32,6 +32,7 @@ class Play extends Phaser.Scene {
         this.ship01 = new Spaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'spaceship', 0, 30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2, 'spaceship', 0, 20).setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'spaceship', 0, 10).setOrigin(0, 0);
+        this.ships = [this.ship01, this.ship02, this.ship03];
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -78,6 +79,8 @@ class Play extends Phaser.Scene {
 
         this.timer = game.settings.gameTimer;
         this.timerDisplay = this.add.text(game.config.width - (borderUISize + borderPadding) * 4, borderUISize + borderPadding * 2, 'Time: ' + this.timer * 0.001, scoreConfig);
+
+        this.speedupThreshold = 30000;
     }
 
     update(time, delta) {
@@ -89,6 +92,18 @@ class Play extends Phaser.Scene {
             this.ship03.update();
         }
 
+        // Doesn't work, not sure why
+        /* for (let ship in this.ships) {
+            console.log(ship);
+            if (this.checkCollision(this.p1Rocket, ship)) {
+                console.log("boom");
+                this.shipExplode(ship);
+                this.p1Rocket.reset();
+                this.timer += 5000;
+            }
+        }
+        */
+        
         // check collisions
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.shipExplode(this.ship03);
@@ -126,6 +141,14 @@ class Play extends Phaser.Scene {
         // game over
         if(Math.round(this.timer * 0.001) == 0) {
             this.gameOverScreen();
+        }
+
+        // Speed up every 30 seconds
+        if (time > this.speedupThreshold) {
+            this.speedupThreshold += 30000;
+            for (let ship of this.ships) {
+                ship.speedUp();
+            }
         }
 
     }
