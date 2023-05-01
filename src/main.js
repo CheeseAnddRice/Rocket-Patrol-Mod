@@ -1,6 +1,6 @@
 /* 
 (Mod name) by Marcus Williamson. 1 hours
-Mods: Time display (10), adds time for successful hits (15)
+Mods: Time display (10), adds time for successful hits (15), spaceships speed up every 30 seconds (5)
 */
 
 let config = {
