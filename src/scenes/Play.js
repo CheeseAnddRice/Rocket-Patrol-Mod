@@ -67,7 +67,7 @@ class Play extends Phaser.Scene {
         // Game over flag
         this.gameOver = false;
 
-        // 60-second timer
+        // 60-second timer (which can be extended by hits)
         scoreConfig.fixedWidth = 0;
         /*
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
@@ -76,11 +76,13 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
         */
-
         this.timer = game.settings.gameTimer;
         this.timerDisplay = this.add.text(game.config.width - (borderUISize + borderPadding) * 4, borderUISize + borderPadding * 2, 'Time: ' + this.timer * 0.001, scoreConfig);
 
-        this.speedupThreshold = 30000;
+        // Speed up every 20 or 30 seconds
+        this.speedupThreshold = game.settings.speedUpFrequency;
+        this.speedUpText = this.add.text(game.config.width / 2, game.config.height / 2 - borderPadding, 'Speed up!').setOrigin(0.5);
+        this.speedUpText.alpha = 0;
     }
 
     update(time, delta) {
@@ -108,17 +110,17 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.shipExplode(this.ship03);
             this.p1Rocket.reset();
-            this.timer += 5000;
+            this.timer += game.settings.timeBonus;
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             this.shipExplode(this.ship02);
             this.p1Rocket.reset();
-            this.timer += 5000;
+            this.timer += game.settings.timeBonus;
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.shipExplode(this.ship01);
             this.p1Rocket.reset();
-            this.timer += 5000;
+            this.timer += game.settings.timeBonus;
         }
 
         // check key input for restart
@@ -145,10 +147,19 @@ class Play extends Phaser.Scene {
 
         // Speed up every 30 seconds
         if (time > this.speedupThreshold) {
-            this.speedupThreshold += 30000;
+            this.speedupThreshold += game.settings.speedUpFrequency;
             for (let ship of this.ships) {
                 ship.speedUp();
             }
+
+            // Display speedup text
+            this.time.delayedCall(game.settings.flashSpeed, () => {
+                this.speedUpText.alpha = 1;
+            }, null, this);
+            this.time.delayedCall(game.settings.flashSpeed * 2, () => {
+                this.speedUpText.alpha = 0;
+            }, null, this);
+            
         }
 
     }
