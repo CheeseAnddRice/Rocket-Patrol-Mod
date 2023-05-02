@@ -83,10 +83,17 @@ class Play extends Phaser.Scene {
         this.speedupThreshold = game.settings.speedUpFrequency;
         this.speedUpText = this.add.text(game.config.width / 2, game.config.height / 2 - borderPadding, 'Speed up!').setOrigin(0.5);
         this.speedUpText.alpha = 0;
+
+        // "FIRE" text
+        this.fireText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
+        this.fireText.alpha = 0;
     }
 
     update(time, delta) {
+        // Moving background
         this.starfield.tilePositionX -= 4;
+
+        // Call update functions on all objects
         if(!this.gameOver) {
             this.p1Rocket.update();
             this.ship01.update();
@@ -94,7 +101,7 @@ class Play extends Phaser.Scene {
             this.ship03.update();
         }
 
-        // Doesn't work, not sure why
+        // For-of collision checking doesn't work, not sure why
         /* for (let ship in this.ships) {
             console.log(ship);
             if (this.checkCollision(this.p1Rocket, ship)) {
@@ -123,7 +130,7 @@ class Play extends Phaser.Scene {
             this.timer += game.settings.timeBonus;
         }
 
-        // check key input for restart
+        // check key input for restart or menu
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.sound.play('sfx_select');
             this.scene.restart();
@@ -160,6 +167,13 @@ class Play extends Phaser.Scene {
                 this.speedUpText.alpha = 0;
             }, null, this);
             
+        }
+
+        // Fire text, TODO add another flag so not constantly setting
+        if(this.p1Rocket.isFiring) {
+            this.fireText.alpha = 1;
+        } else {
+            this.fireText.alpha = 0;
         }
 
     }

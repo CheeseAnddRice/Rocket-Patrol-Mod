@@ -1,6 +1,13 @@
 /* 
-(Mod name) by Marcus Williamson. 1 hours
-Mods: Time display (10), adds time for successful hits (15), spaceships speed up every 30 seconds (5)
+(Mod name) by Marcus Williamson. about 2 hours
+
+-----Mod List-----
+-Time display (10)
+-Adds time for successful hits (15)
+-Spaceships speed up every 30 seconds (or 20 seconds for hard mode) (5)
+-"FIRE" UI text (5)
+
+Ideas: Speed and double shot powerup
 */
 
 let config = {
