@@ -1,11 +1,12 @@
 /* 
-(Mod name) by Marcus Williamson. about 2 hours
+(Mod name) by Marcus Williamson. about 2.5 hours
 
 -----Mod List-----
--Time display (10)
--Adds time for successful hits (15)
--Spaceships speed up every 30 seconds (or 20 seconds for hard mode) (5)
--"FIRE" UI text (5)
+- Time display (10)
+- Adds time for successful hits (15)
+- Spaceships speed up every 30 seconds (or 20 seconds for hard mode) (5)
+- "FIRE" UI text (5)
+- Mouse movement (15)
 
 Ideas: Speed and double shot powerup
 */

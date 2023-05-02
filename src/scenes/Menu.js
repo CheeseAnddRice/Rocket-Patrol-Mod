@@ -58,7 +58,8 @@ class Menu extends Phaser.Scene {
                 gameTimer: 45000,
                 timeBonus: 3000,
                 speedUpFrequency: 20000,
-                flashSpeed: 1000
+                flashSpeed: 1000,
+                mouseMovement: true
             }
             this.sound.play('sfx_select');
             this.scene.start('playScene');
