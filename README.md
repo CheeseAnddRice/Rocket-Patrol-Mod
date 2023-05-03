@@ -11,3 +11,5 @@ Created for CMPM 120 Spring 2023. Adds the following modifications:
 - Randomized ship directions (at start)
 - Smaller, faster ship worth 100 points
 - 4 explosion sound which play at random
+
+Play at: https://cheeseanddrice.github.io/Rocket-Patrol-Mod/
