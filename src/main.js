@@ -1,5 +1,5 @@
 /* 
-(Mod name) by Marcus Williamson. about 5 hours
+Rocket Patrol++ by Marcus Williamson. about 5 hours
 
 -----Mod List-----
 - Time display (10)
@@ -9,8 +9,7 @@
 - Mouse movement (15)
 - Particle explosions (15)
 - High score (5)
-
-Ideas: Speed and double shot powerup
+- Randomized ship directions (5)
 */
 
 let config = {
