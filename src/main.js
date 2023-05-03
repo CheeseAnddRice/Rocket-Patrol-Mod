@@ -7,6 +7,8 @@
 - Spaceships speed up every 30 seconds (5)
 - "FIRE" UI text (5)
 - Mouse movement (15)
+- Particle explosions (15)
+- High score (5)
 
 Ideas: Speed and double shot powerup
 */
@@ -24,6 +26,7 @@ let config = {
 let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
+let highScore = 0;
 
 // keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;

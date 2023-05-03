@@ -81,6 +81,7 @@ class Play extends Phaser.Scene {
         this.timerDisplay = this.add.text(game.config.width - (borderUISize + borderPadding) * 4, borderUISize + borderPadding * 2, 'Time: ' + this.timer * 0.001, scoreConfig);
 
         // Speed up every 20 or 30 seconds
+        this.speedUpTimer = 0;
         this.speedupThreshold = game.settings.speedUpFrequency;
         this.speedUpText = this.add.text(game.config.width / 2, game.config.height / 2 - borderPadding, 'Speed up!', scoreConfig).setOrigin(0.5);
         this.speedUpText.alpha = 0;
@@ -160,13 +161,15 @@ class Play extends Phaser.Scene {
         }
 
         // Speed up every 30 seconds
-        if (time > this.speedupThreshold) {
+        if (!this.gameOver) {
+            this.speedUpTimer += delta;
+        }
+        if (this.speedUpTimer > this.speedupThreshold) {
             this.speedupThreshold += game.settings.speedUpFrequency;
             for (let ship of this.ships) {
                 ship.speedUp();
             }
 
-            console.log(game.settings.flashSpeed);
             // Display speedup text
             this.speedUpText.alpha = 1;
             this.time.delayedCall(game.settings.flashSpeed * 2, () => {
@@ -241,5 +244,8 @@ class Play extends Phaser.Scene {
         this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', gameoverConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', gameoverConfig).setOrigin(0.5);
         this.gameOver = true;
+        if(this.p1Score > highScore) {
+            highScore = this.p1Score;
+        }
     }
 }
