@@ -8,6 +8,10 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/select.wav');
         this.load.audio('sfx_explosion', './assets/explosion.wav');
         this.load.audio('sfx_rocket', './assets/rocket.wav');
+        this.load.audio('sfx_explosion1', './assets/explosion1.wav');
+        this.load.audio('sfx_explosion2', './assets/explosion2.wav');
+        this.load.audio('sfx_explosion3', './assets/explosion3.wav');
+        this.load.audio('sfx_explosion4', './assets/explosion4.wav');
     }
 
     create() {
@@ -47,7 +51,7 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 spaceshipSpeed: 3,
                 gameTimer: 60000,
-                timeBonus: 4000,
+                timeBonus: 3000,
                 speedUpFrequency: 30000,
                 flashSpeed: 200,
                 mouseMovement: true
@@ -61,7 +65,7 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 spaceshipSpeed: 4,
                 gameTimer: 45000,
-                timeBonus: 3000,
+                timeBonus: 2000,
                 speedUpFrequency: 30000,
                 flashSpeed: 200,
                 mouseMovement: true

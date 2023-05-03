@@ -10,7 +10,8 @@ Rocket Patrol++ by Marcus Williamson. about 6 hours
 - Particle explosions (15)
 - High score (5)
 - Randomized ship directions (5)
-- Smaller ship worth 100 points (15)
+- Smaller, faster ship worth 100 points (15)
+- Randomized explosion sound (10)
 */
 
 let config = {
