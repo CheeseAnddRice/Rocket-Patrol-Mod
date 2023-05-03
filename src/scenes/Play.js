@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.image('explosion3', './assets/explosion3.png');
     }
 
     create() {
@@ -81,12 +82,18 @@ class Play extends Phaser.Scene {
 
         // Speed up every 20 or 30 seconds
         this.speedupThreshold = game.settings.speedUpFrequency;
-        this.speedUpText = this.add.text(game.config.width / 2, game.config.height / 2 - borderPadding, 'Speed up!').setOrigin(0.5);
+        this.speedUpText = this.add.text(game.config.width / 2, game.config.height / 2 - borderPadding, 'Speed up!', scoreConfig).setOrigin(0.5);
         this.speedUpText.alpha = 0;
 
         // "FIRE" text
         this.fireText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, 'FIRE', scoreConfig).setOrigin(0.5, 0);
         this.fireText.alpha = 0;
+
+        // Explosion particle emitter
+        this.particles = this.add.particles(0, 0, 'explosion3', {
+            speed: 30,
+            emitting: false
+        });
     }
 
     update(time, delta) {
@@ -159,14 +166,18 @@ class Play extends Phaser.Scene {
                 ship.speedUp();
             }
 
+            console.log(game.settings.flashSpeed);
             // Display speedup text
-            this.time.delayedCall(game.settings.flashSpeed, () => {
-                this.speedUpText.alpha = 1;
-            }, null, this);
+            this.speedUpText.alpha = 1;
             this.time.delayedCall(game.settings.flashSpeed * 2, () => {
                 this.speedUpText.alpha = 0;
             }, null, this);
-            
+            this.time.delayedCall(game.settings.flashSpeed * 3, () => {
+                this.speedUpText.alpha = 1;
+            }, null, this);
+            this.time.delayedCall(game.settings.flashSpeed * 5, () => {
+                this.speedUpText.alpha = 0;
+            }, null, this);
         }
 
         // Fire text, TODO add another flag so not constantly setting
@@ -193,14 +204,21 @@ class Play extends Phaser.Scene {
     shipExplode(ship) {
         // temporarily hide ship
         ship.alpha = 0;
-        // create explosion sprite at ship's position
+
+        /*// create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {    // callback after anim completes
             ship.reset();
             ship.alpha = 1;
             boom.destroy();
-        });
+        }); */
+        
+        // create explosion particle effect
+        this.particles.emitParticleAt(ship.x, ship.y, 20);
+        ship.reset();
+        ship.alpha = 1;
+
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
